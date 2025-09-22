@@ -1,0 +1,166 @@
+<html>
+<head>
+  <title>Form Registrasi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    form {
+      padding: 25px;
+      border-radius: 10px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    h2, h3 {
+      text-align: center;
+      margin: 5px 0;
+      color: #4CAF50;
+    }
+    h3 {
+      color: #000;
+    }
+    label {
+      display: block;
+      margin: 10px 0 6px;
+    }
+    input,
+    select {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: all 0.3s ease; 
+    }
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <form id="form" method="post" action="data.php" onsubmit="return validateForm()">
+    <h2>Selamat Datang</h2>
+    <h3>Institut Teknologi Sepuluh Nopember</h3>
+
+    <label for="nama">Nama Lengkap</label>
+    <input type="text" id="nama" name="nama" placeholder="Tuliskan nama lengkap">
+    <span id="enama" class="error"></span>
+
+    <label for="nrp">NRP</label>
+    <input type="text" id="nrp" name="nrp" maxlength="10" placeholder="Tuliskan NRP">
+    <span id="enrp" class="error"></span>
+
+    <label for="faculty">Fakultas</label>
+    <input list="facultyList" id="faculty" name="faculty" placeholder="Pilih fakultas">
+    <datalist id="facultyList">
+      <option value="Fakultas Teknologi Elektro dan Informatika Cerdas">
+      <option value="Fakultas Sains dan Analitika Data">
+      <option value="Fakultas Teknologi Industri dan Rekayasa Sistem">
+      <option value="Fakultas Teknik Sipil, Perencanaan, dan Kebumian">
+      <option value="Fakultas Vokasi">
+      <option value="Fakultas Kedokteran dan Kesehatan">
+      <option value="Fakultas Teknologi Kelautan">
+      <option value="Fakultas Desain Kreatif dan Bisnis Digital">
+    </datalist>
+    <span id="efaculty" class="error"></span>
+
+    <label for="depart">Departemen</label>
+    <input type="text" id="depart" name="depart" placeholder="Tuliskan departemen">
+    <span id="edepart" class="error"></span>
+
+    <label for="class">Semester</label>
+    <select id="class" onchange="updateCourse()">
+      <option value="">Pilih Semester</option>
+      <option value="satu">1</option>
+      <option value="dua">2</option>
+      <option value="tiga">3</option>
+    </select>
+    <span id="eclass" class="error"></span>
+
+    <label for="course">Mata Kuliah</label>
+    <select id="course" name="course">
+      <option value="">Pilih Mata Kuliah</option>
+    </select>
+    <span id="ecourse" class="error"></span>
+
+    <label for="lecture">Nama Dosen</label>
+    <input type="text" id="lecture" name="lecture" placeholder="Tuliskan nama dosen">
+    <span id="electure" class="error"></span>
+
+    <input type="submit" value="Kirim">
+  </form>
+
+  <script>
+    const data = {
+      satu: ["Dasar Pemrograman", "Sistem Digital", "Sistem Basis Data", "Kalkulus 1", "Aljabar Linier"],
+      dua: ["Struktur Data", "Sistem Operasi", "Komputasi Numerik", "Jaringan Komputer", "Kalkulus 2", "PTEIC"],
+      tiga: ["Pemrograman Web", "PBO", "Jaringan Komputer", "KKA", "KPPL", "Matematika Diskrit", "Teori Graf"]
+    };
+
+    function updateCourse() {
+      const cl = document.getElementById("class").value;
+      const co = document.getElementById("course");
+      co.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+      if (cl && data[cl]) {
+        data[cl].forEach(course => {
+          const option = document.createElement("option");
+          option.value = course.toLowerCase().replace(/\s+/g, "-");
+          option.textContent = course;
+          co.appendChild(option);
+        });
+      }
+    }
+
+    function validateForm() {
+      let valid = true;
+      const fields = [
+        {id: "nama", msg: "Nama harus diisi!"},
+        {id: "nrp", msg: "NRP harus diisi!"},
+        {id: "faculty", msg: "Fakultas harus diisi!"},
+        {id: "depart", msg: "Departemen harus diisi!"},
+        {id: "class", msg: "Semester harus dipilih!"},
+        {id: "course", msg: "Mata kuliah harus dipilih!"},
+        {id: "lecture", msg: "Nama dosen harus diisi!"}
+      ];
+
+      document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+      fields.forEach(f => {
+        const val = document.getElementById(f.id).value.trim();
+        if (val === "") {
+          document.getElementById("e" + f.id).textContent = f.msg;
+          valid = false;
+        }
+      });
+
+      if (valid) alert("Form berhasil terkirim!");
+      return valid;
+    }
+  </script>
+</body>
+</html>
