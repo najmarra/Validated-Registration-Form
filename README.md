@@ -7,7 +7,7 @@ Pemrograman Web B pertemuan 5 membuat Validated Registration Form menggunakan Ja
 
 Fitur:
 
-Menampilkan pesan peringatan apanila fields belum terisi sehingga tidak bisa melakukan submit.
+Menampilkan pesan peringatan apabila fields belum terisi sehingga tidak bisa melakukan submit.
 
 Tampilan:
 
